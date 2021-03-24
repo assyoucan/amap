@@ -23,6 +23,7 @@ export default {
   computed: {},
   methods: {
     initAmap() {
+      let that = this;
       this.map = new AMap.Map("container", initMap);
       this.map.plugin("AMap.Geolocation", () => {
         let geolocation = new AMap.Geolocation({
@@ -42,14 +43,12 @@ export default {
         geolocation.getCurrentPosition((status, result) => {
           if (status === "complete") {
             console.log("定位成功");
-            console.log(result);
+            that.currentPositionLat = result.position.Lat;
+            that.currentPositionLng = result.position.Lng;
           } else {
             console.log("定位失败");
-            console.log(result);
           }
         });
-        AMap.event.addListener(geolocation, "complete", postionInfo => {}); //返回定位信息
-        AMap.event.addListener(geolocation, "error", onError); //返回定位出错信息
       });
     },
     createMarker() {}
